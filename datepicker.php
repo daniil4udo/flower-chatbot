@@ -4,7 +4,7 @@
     (int)$nextpage = $currentpage + 1;
     (int)$prevpage = $currentpage - 1;
     (int)$dayToShow = 7;
-   
+
     $url= "https://dubaifloral.com/bot-assets/datepicker.php"; //url for datepicker.php
     //$urloutput = "https://dubaifloral.com/bot-assets/showtext.php"; //url for showtext.php
     
