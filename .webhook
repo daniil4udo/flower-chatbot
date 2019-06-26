@@ -1,0 +1,112 @@
+# MESSAGES
+
+This callback will occur when a message has been sent to your page. 
+
+You may receive: 
+- text messages
+- messages with attachments (
+    template, image, audio, video, file, or location). 
+    
+You may also receive fallback attachments, which are attachments in Messenger other than the ones mentioned above. 
+
+A common example is attachments created from link scraping. Messages are always sent in order.
+
+# Text Message
+
+{
+  "sender":{
+    "id":"<PSID>"
+  },
+  "recipient":{
+    "id":"<PAGE_ID>"
+  },
+  "timestamp":1458692752478,
+  "message":{
+    "mid":"mid.1457764197618:41d102a3e1ae206a38",
+    "text":"hello, world!",
+    "quick_reply": {
+      "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
+    }
+  }
+}    
+
+# Message with blob attachment
+
+{
+  "id": "682498302938465",
+  "time": 1518479195594,
+  "messaging": [
+    {
+      "sender": {
+        "id": "<PSID>"
+      },
+      "recipient": {
+        "id": "<PAGE_ID>"
+      },
+      "timestamp": 1518479195308,
+      "message": {
+        "mid": "mid.$cAAJdkrCd2ORnva8ErFhjGm0X_Q_c",
+        "attachments": [
+          {
+            "type": "<image|video|audio|file>",
+            "payload": {
+              "url": "<ATTACHMENT_URL>"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+
+# Message with fallback attachment from link scraping
+
+{
+  "sender":{
+    "id":"<PSID>"
+  },
+  "recipient":{
+    "id":"<PAGE_ID>"
+  },
+  "timestamp":1458692752478,
+  "message":{
+    "mid":"mid.1458696618141:b4ef9d19ec21086067",
+    "text":"<URL_SENT_BY_THE_USER>",
+    "attachments":[
+      {
+        "type":"fallback",
+        "payload":null,
+      	"title":"<TITLE_OF_THE_URL_ATTACHMENT>",
+      	"URL":"<URL_OF_THE_ATTACHMENT>",
+      }
+    ]
+  }
+}
+
+# messaging_postbacks
+
+Postbacks occur when a postback button, Get Started button, or persistent menu item is tapped.
+
+The payload field passed is defined in the above places.
+
+You can subscribe to this callback by selecting the messaging_postbacks field when setting up your webhook.
+
+Example
+{
+  "sender":{
+    "id":"<PSID>"
+  },
+  "recipient":{
+    "id":"<PAGE_ID>"
+  },
+  "timestamp":1458692752478,
+  "postback":{
+    "title": "<TITLE_FOR_THE_CTA>",  
+    "payload": "<USER_DEFINED_PAYLOAD>",
+    "referral": {
+      "ref": "<USER_DEFINED_REFERRAL_PARAM>",
+      "source": "<SHORTLINK>",
+      "type": "OPEN_THREAD",
+    }
+  }
+}    
