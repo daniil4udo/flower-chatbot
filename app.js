@@ -1,36 +1,26 @@
 const axios = require('axios');
 
-const t = require('./src/templates')
-const btn = require('./src/helpers/4-elements-buttons')
-const utils = require('./src/utils')
-// const { body, recipient, message, options, attachment } = require('./src/sendAPI')
+const utils = require('./src/helpers/utils')
+const sendAPI = require('./src/API/SendAPI')
+const sendAPIElements = require('./src/API/Send API-elements')
+const messagerProfileAPI = require('./src/API/MessengerProfileAPI')
 
-const URL = 'https://res.cloudinary.com/https-dubaifloral-com/image/upload/v1539079964/Singing_Birthday_Bears__06813_zoom_nvpxy2.jpg'
-const asyncGetContentType = async (URL) => {
-    var http = require('https');
-    //var options = {method: 'HEAD', host: 'https://res.cloudinary.com/https-dubaifloral-com/image/upload/v1539079964/Singing_Birthday_Bears__06813_zoom_nvpxy2.jpg',};
-    var req = http.request(URL, (res) => {
-        console.log(JSON.stringify(res.headers));
-    }
-    );
-    req.end();
-}
+const lg = console.log
+/**
+ * Message request
+ */
 
-const defaul_action = btn.urlButton('htt//', 'My URL')
+const recipient = sendAPI.setRecipientData('USERS_PSID')
+
 const buttons = [
-    btn.callButton('call Us', "+2342"),
-    btn.postbackButton('Post that', '<PAYLOAD>'),
-    defaul_action
+    sendAPIElements.callButton('Call us', '+380973008777'),
+    sendAPIElements.urlButton('https://google.com', 'Google')
 ]
-//const buttonTmpl = tmpl.buttonTemplatePayload('Button Template', buttons)
+const defaultAction = sendAPIElements.urlButton('https://facebook.com', 'Facebook')
 
-console.log(
-    asyncGetContentType(URL)
-)
+const message = sendAPI.sendText(recipient, 'Message in Messenger')
 
-console.log(
-    '\n',
-    JSON.stringify(
-        t.sendButtonTemplate('1111231', 'Button template', buttons, true)
-        , null, '\t')
-)
+const buttonTemplate = sendAPI.sendButtonTemplate(recipient, 'My message Buttons template', buttons)
+
+
+lg(buttonTemplate)
