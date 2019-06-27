@@ -8,7 +8,7 @@ const { ext } = require('./content-type-extentions')
 // requireArguments = (e) => {
 //     throw new SyntaxError(`Function parameter is missing - ${e}`)
 // }
-Object.defineProperty(Object.prototype, 'required', {
+Object.defineProperty(Object.prototype, 'required', { //to get rid of parenthesis 
     get: () => {
         throw new TypeError(`Missing required argument`)
     }

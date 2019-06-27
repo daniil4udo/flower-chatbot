@@ -2,7 +2,7 @@
   "name": "flower-chatbot",
   "version": "1.0.0",
   "description": "PHP scripts to generate JSON requests to Messenger",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon app.js"
   },
@@ -23,5 +23,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }

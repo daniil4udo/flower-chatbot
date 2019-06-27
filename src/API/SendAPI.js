@@ -1,8 +1,7 @@
 'use strict'
 const utils = require('../helpers/utils')
 
-const senderAPIRequestURI = (token) => `https://graph.facebook.com/v3.3/me/messages?access_token=${token}`
-
+const senderAPIRequestURI = (token, v = '3.3') => `https://graph.facebook.com/v${v}/me/messages?access_token=${token}`
 /**
  * https://developers.facebook.com/docs/messenger-platform/reference/send-api/error-codes
  * @param { Object } {} - response object
@@ -29,8 +28,6 @@ const body = (
     message = required,
     options
 ) => {
-    if (!recipient && !message)
-        throw new Error('Recipient & Message are missing!')
     return JSON.stringify(Object.assign(
         {},
         { recipient },
@@ -54,8 +51,6 @@ function recipient(
     user_ref,
     first_name, last_name
 ) {
-    if (arguments.length < 1)
-        throw new Error('No arguments found! RECIPIENT needs a PSID')
     return Object.assign(
         {},
         { id },
@@ -123,13 +118,10 @@ function options(
  * https://developers.facebook.com/docs/messenger-platform/send-messages
  * @param { String } message 
  */
-function text(message) {
-    message = message + ''
-    if (arguments.length < 1)
-        throw new Error('No arguments found! TEXT needs arguments')
+function text(message = required) {
     if (typeof message !== 'string')
         throw new TypeError('Your message should be a string')
-    return message
+    return `${message}`
 }
 
 /**
@@ -138,12 +130,9 @@ function text(message) {
  * @param { Object } payload - Payload of attachment
  */
 function attachment(
-    type,
-    payload
+    type = required,
+    payload = required
 ) {
-    if (arguments.length < 1)
-        throw new Error('No arguments found! ATTACHMENT need arguments')
-
     return utils.isValidAttachmentType(type) &&
         Object.assign(
             {},
@@ -168,7 +157,6 @@ const fileAttachmentPayload = (
     url = required,
     is_reusable = true
 ) => {
-
     return utils.isValidURL(url) && attachment(
         type,
         Object.assign(
@@ -234,7 +222,7 @@ const buttonTemplatePayload = (
  * @param { String } image_aspect_ratio - Optional. The aspect ratio used to render images specified by element.image_url. Must be horizontal (1.91:1) or square (1:1). Defaults to horizontal
  */
 const genericTemplatePayload = (
-    elements,
+    elements = required,
     sharable,
     image_aspect_ratio
 ) => {
@@ -255,7 +243,7 @@ const genericTemplatePayload = (
  * @param { Array<element> } elements - Array of objects that describe items in the list. Minimum of 2 elements required. Maximum of 4 elements is supported
  */
 const listTemplatePayload = (
-    elements,
+    elements = required,
     buttons,
     top_element_style = 'compact',
     sharable
@@ -279,7 +267,7 @@ const listTemplatePayload = (
  * @param { Array<element> } elements - Use mediaTemplateElement method. An array containing 1 element object that describe the media in the message. A maximum of 1 element is supported.
  */
 const mediaTemplatePayload = (
-    elements,
+    elements = required,
     sharable = true,
 ) => {
     if (!elements || elements.length > 1)
@@ -297,7 +285,7 @@ const mediaTemplatePayload = (
  * @param { Array<element> } elements - Array of maximum 1 object that describes the open graph object to display
  */
 const opengraphTemplatePayload = (
-    elements
+    elements = required
 ) => {
     if (!elements || elements.length > 1)
         throw new Error('element doesn\t exist or has more then 1 element')
@@ -323,7 +311,7 @@ const opengraphTemplatePayload = (
  * @param { Array<adjustment> } adjustments 
  */
 const receiptTemplatePayload = (
-    elements,
+    elements = required,
     sharable,
     recipient_name,
     merchant_name,
@@ -386,7 +374,7 @@ module.exports = {
         )
     },
 
-    //=== QR
+    //=== QUICK REPLIES
 
     sendQuickReplies(recipient, text, attachment, quickReplies, options) {
         return body(
@@ -411,18 +399,19 @@ module.exports = {
      * @param { Object } options 
      */
     sendRichMessage(recipient, type, url, isReusable, options) {
-        return utils.isValidURL(url) && body(
-            recipient,
-            message(
-                null,
-                fileAttachmentPayload(
-                    type,
-                    url,
-                    isReusable
-                )
-            ),
-            options
-        )
+        return utils.isValidURL(url) &&
+            body(
+                recipient,
+                message(
+                    null,
+                    fileAttachmentPayload(
+                        type,
+                        url,
+                        isReusable
+                    )
+                ),
+                options
+            )
     },
 
     /**
