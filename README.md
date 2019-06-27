@@ -1,9 +1,27 @@
-# JSON with PHP for ChatFuel and ManyChat
+# Geberating JSON requests for Facebook Messenger
 
-PHP scripts to generate JSON requests to Messenger
+Easy way to generate JSON requests
 
-- Date picker
+## JS scripts to generate JSON requests
 
-- Pagination (works with safe MySQL that also included)
+BODY:
+ - RESIPIENT
+ -- id
+ -- phone_number
+ -- user_ref
+ -- name
+ 
+ - MESSAGE
+ -- text
+ -- attachment
+ -- quick_replies
+ 
+  - OPTIONS
+ -- messaging_type
+ -- tag
+ -- notification_type
+ -- sender_action
 
-- 
+
+## PHP scripts for Chatfuel
+
